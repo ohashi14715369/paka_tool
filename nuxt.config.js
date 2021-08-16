@@ -9,8 +9,8 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - uma_tool',
-    title: 'uma_tool',
+    titleTemplate: '%s - paka_tool',
+    title: 'paka_tool',
     htmlAttrs: {
       lang: 'en',
     },
@@ -41,7 +41,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -66,6 +66,37 @@ export default {
   build: {},
 
   router: {
-    base: '/uma_tool/',
+    base: '/paka_tool/',
+    middleware: ['auth'],
+  },
+  auth: {
+    plugins: [
+      { src: 'node_modules/nuxt-auth-auto-refresh/dist/index.js', ssr: false },
+    ],
+    redirect: {
+      login: '/login',
+      logout: '/',
+      callback: '/auth/callback',
+      home: '/',
+    },
+    strategies: {
+      google: {
+        client_id:
+          '273536660891-ao0r075jhdmdf9jkg714ls5cvp82fj9i.apps.googleusercontent.com',
+        scope: [
+          'https://www.googleapis.com/auth/drive.readonly',
+          'https://www.googleapis.com/auth/userinfo.profile',
+        ],
+        token: {
+          property: 'access_token',
+          type: 'Bearer',
+          maxAge: 1800,
+        },
+        refreshToken: {
+          property: 'refresh_token',
+          maxAge: 60 * 60 * 24 * 30,
+        },
+      },
+    },
   },
 };

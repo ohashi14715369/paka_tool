@@ -27,8 +27,7 @@ export default class PageDatabase extends Vue {
   async updateDatabase(event: Event) {
     event.preventDefault();
     const datasourceList = await this.$axios.$get<DataSource[]>(
-      `https://www.googleapis.com/drive/v3/files/${DATASOURCE_JSON_FILE_ID}?alt=media`,
-      { headers: { Authorization: this.$auth.getToken('google') } }
+      `https://www.googleapis.com/drive/v3/files/${DATASOURCE_JSON_FILE_ID}?alt=media`
     );
     this.updateStatusList.splice(0);
     for (const datasource of datasourceList) {
@@ -54,11 +53,8 @@ export default class PageDatabase extends Vue {
         .then((dataList) => {
           updateStatus.count = dataList.length;
           updateStatus.status = 'updating';
-          Promise.all(
-            dataList.map((data) =>
-              datastore.insert(data).then((_) => updateStatus.inserted++)
-            )
-          ).then((_) => {
+          datastore.insert(dataList).then((_) => {
+            updateStatus.inserted += _.length;
             updateStatus.status = 'success';
           });
         });

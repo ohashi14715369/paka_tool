@@ -41,7 +41,7 @@ export default {
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
-  modules: ['@nuxtjs/axios', '@nuxtjs/auth'],
+  modules: ['@nuxtjs/axios', '@nuxtjs/auth-next'],
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
@@ -66,36 +66,20 @@ export default {
   build: {},
 
   router: {
-    base: '/paka_tool/',
+    base: '/paka_tool',
     middleware: ['auth'],
   },
   auth: {
-    plugins: [
-      { src: 'node_modules/nuxt-auth-auto-refresh/dist/index.js', ssr: false },
-    ],
-    redirect: {
-      login: '/login',
-      logout: '/',
-      callback: '/auth/callback',
-      home: '/',
-    },
     strategies: {
       google: {
-        client_id:
-          '273536660891-ao0r075jhdmdf9jkg714ls5cvp82fj9i.apps.googleusercontent.com',
+        clientId:
+          '852744625807-7dtk2qtv14du6vd11sln6v6uh6ob4fro.apps.googleusercontent.com',
+        codeChallengeMethod: '',
+        responseType: 'id_token token',
         scope: [
           'https://www.googleapis.com/auth/drive.readonly',
           'https://www.googleapis.com/auth/userinfo.profile',
         ],
-        token: {
-          property: 'access_token',
-          type: 'Bearer',
-          maxAge: 1800,
-        },
-        refreshToken: {
-          property: 'refresh_token',
-          maxAge: 60 * 60 * 24 * 30,
-        },
       },
     },
   },

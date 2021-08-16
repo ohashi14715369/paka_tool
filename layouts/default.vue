@@ -21,6 +21,20 @@
     <v-app-bar fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title v-text="title" />
+      <v-spacer />
+      <v-menu left bottom>
+        <template #activator="{ on, attrs }">
+          <v-avatar v-if="$auth.loggedIn" v-bind="attrs" v-on="on">
+            <v-img :src="$auth.state.user.picture" />
+          </v-avatar>
+        </template>
+
+        <v-list>
+          <v-list-item>
+            <v-list-item-title @click="$auth.logout()" v-text="'LogOut'" />
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </v-app-bar>
     <v-main>
       <v-container>
